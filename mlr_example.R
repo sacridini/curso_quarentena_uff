@@ -25,7 +25,7 @@ diabetesTask <- makeClassifTask(data = diabetesTib, target = "class")
 
 # Define a Learner --------------------------------------------------------
 knn <- makeLearner("classif.knn", par.vals = list("k" = 2))
-# rf = makeLearner("classif.randomForest", predict.type = "prob", fix.factors.prediction = TRUE)
+rf = makeLearner("classif.randomForest", predict.type = "prob", fix.factors.prediction = TRUE)
 
 # Listas todos os algoritmos de classificação do MLR 
 # listLearners()$class
@@ -33,18 +33,18 @@ knn <- makeLearner("classif.knn", par.vals = list("k" = 2))
 
 # Training the Model ------------------------------------------------------
 knnModel <- train(knn, diabetesTask)
-# rfModel <- train(rf, diabetesTask)
+rfModel <- train(rf, diabetesTask)
 
 # Testing Performance (Cross-Validation) ----------------------------------
 kFold <- makeResampleDesc("RepCV", folds = 10, reps = 50)
 kFoldCV <- resample(learner = knn, task = diabetesTask, resampling = kFold)
-# rfFoldCV <- resample(learner = rf, task = diabetesTask, resampling = kFold)
+rfFoldCV <- resample(learner = rf, task = diabetesTask, resampling = kFold)
 
 calculateConfusionMatrix(kFoldCV$pred)
 
-
 # Usando rasters
 # new_data <- as.data.frame(as.matrix(r))
-# pred_rf <- raster::predict(model_rf, newdata = new_data)
+# pred_rf <- raster::predict(rfModel, newdata = new_data)
 # pred = r # Cria um raster
 # pred[] = pred_rf$data$response
+# writeRaster(pred, "output_class_rf.tif")
