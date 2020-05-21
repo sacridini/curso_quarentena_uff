@@ -42,6 +42,9 @@ rfFoldCV <- resample(learner = rf, task = diabetesTask, resampling = kFold)
 
 calculateConfusionMatrix(kFoldCV$pred)
 
+pred = predict(rfModel, task = diabetesTask)
+getPredictionProbabilities(pred)
+
 # Usando rasters
 # new_data <- as.data.frame(as.matrix(r))
 # pred_rf <- raster::predict(rfModel, newdata = new_data)
